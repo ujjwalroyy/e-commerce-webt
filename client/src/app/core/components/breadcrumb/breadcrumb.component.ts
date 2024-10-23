@@ -32,9 +32,6 @@ export class BreadcrumbComponent implements OnInit{
   }
 
   ngOnInit(): void {
-  // this.route.pathFromRoot;
-  // this.listenRoute();
-  // console.log('breadcrumbslist',this.breadcrumbList);
 
   }
 }

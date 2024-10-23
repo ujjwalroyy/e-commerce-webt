@@ -2,7 +2,6 @@ import orderModel from "../models/orderModel.js";
 import productModel from "../models/productModel.js";
 import { stripe } from "../server.js";
 
-// CREATE ORDERS
 export const createOrderController = async (req, res) => {
   try {
     const {
@@ -15,8 +14,7 @@ export const createOrderController = async (req, res) => {
       shippingCharges,
       totalAmount,
     } = req.body;
-    //valdiation
-    // create order
+  
     await orderModel.create({
       user: req.user._id,
       shippingInfo,
@@ -29,9 +27,7 @@ export const createOrderController = async (req, res) => {
       totalAmount,
     });
 
-    // stock update
     for (let i = 0; i < orderItems.length; i++) {
-      // find product
       const product = await productModel.findById(orderItems[i].product);
       product.stock -= orderItems[i].quantity;
       await product.save();
@@ -50,12 +46,9 @@ export const createOrderController = async (req, res) => {
   }
 };
 
-// GET ALL ORDERS - MY ORDERS
 export const getMyOrdersCotroller = async (req, res) => {
   try {
-    // find orders
     const orders = await orderModel.find({ user: req.user._id });
-    //valdiation
     if (!orders) {
       return res.status(404).send({
         success: false,
@@ -78,12 +71,9 @@ export const getMyOrdersCotroller = async (req, res) => {
   }
 };
 
-// GET SINGLE ORDER INFO
 export const singleOrderDetrailsController = async (req, res) => {
   try {
-    // find orders
     const order = await orderModel.findById(req.params.id);
-    //valdiation
     if (!order) {
       return res.status(404).send({
         success: false,
@@ -97,7 +87,6 @@ export const singleOrderDetrailsController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    // cast error ||  OBJECT ID
     if (error.name === "CastError") {
       return res.status(500).send({
         success: false,
@@ -112,12 +101,9 @@ export const singleOrderDetrailsController = async (req, res) => {
   }
 };
 
-// ACCEPT PAYMENTS
 export const paymetsController = async (req, res) => {
   try {
-    // get ampunt
     const { totalAmount } = req.body;
-    // validation
     if (!totalAmount) {
       return res.status(404).send({
         success: false,
@@ -142,9 +128,7 @@ export const paymetsController = async (req, res) => {
   }
 };
 
-// ========== ADMIN SECTION =============
 
-// GET ALL ORDERS
 export const getAllOrdersController = async (req, res) => {
   try {
     const orders = await orderModel.find({});
@@ -164,12 +148,9 @@ export const getAllOrdersController = async (req, res) => {
   }
 };
 
-// CHANGE ORDER STATUS
 export const changeOrderStatusController = async (req, res) => {
   try {
-    // find order
     const order = await orderModel.findById(req.params.id);
-    // validatiom
     if (!order) {
       return res.status(404).send({
         success: false,
@@ -193,7 +174,6 @@ export const changeOrderStatusController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    // cast error ||  OBJECT ID
     if (error.name === "CastError") {
       return res.status(500).send({
         success: false,

@@ -17,13 +17,11 @@ const routes: Routes = [
   {
     path:'login',
     component:LoginComponent,
-    // canActivate:[canActivate]
 
   },
   {
     path:'register',
     component:RegisterComponent,
-    // canActivate:[canActivate]
 
   },
   {

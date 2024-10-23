@@ -1,4 +1,4 @@
 
 export const environment={
-    baseAPIURL:'https://anish-mockapi.onrender.com/'
+    baseAPIURL:'http:localhost:4200/'
 }
